@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
 
 // ── Enums ────────────────────────────────────────────────────────────────────
 export const roleEnum = pgEnum("role", ["empleado", "agente"]);
@@ -24,17 +24,19 @@ export const statusEnum = pgEnum("status", [
 
 // ── Tables ───────────────────────────────────────────────────────────────────
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
+  emailVerified: boolean("email_verified").notNull().default(false),
   role: roleEnum("role").notNull().default("empleado"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 // Better Auth requires these tables — managed by better-auth internally
 export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   token: text("token").notNull().unique(),
@@ -47,7 +49,7 @@ export const sessions = pgTable("sessions", {
 
 export const accounts = pgTable("accounts", {
   id: text("id").primaryKey(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   accountId: text("account_id").notNull(),
@@ -73,10 +75,10 @@ export const tickets = pgTable("tickets", {
   category: categoryEnum("category").notNull(),
   priority: priorityEnum("priority").notNull(),
   status: statusEnum("status").notNull().default("abierto"),
-  createdBy: uuid("created_by")
+  createdBy: text("created_by")
     .notNull()
     .references(() => users.id),
-  assignedTo: uuid("assigned_to").references(() => users.id),
+  assignedTo: text("assigned_to").references(() => users.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   resolvedAt: timestamp("resolved_at"),
@@ -87,7 +89,7 @@ export const comments = pgTable("comments", {
   ticketId: uuid("ticket_id")
     .notNull()
     .references(() => tickets.id, { onDelete: "cascade" }),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => users.id),
   content: text("content").notNull(),
