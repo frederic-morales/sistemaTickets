@@ -142,3 +142,13 @@ TanStack Router genera el árbol de rutas automáticamente desde la estructura d
 
 ### Por qué el auth guard está en `__root.tsx` y no en cada ruta
 Centralizar la verificación de sesión en el layout raíz garantiza que ninguna ruta quede desprotegida por omisión. Si estuviera en cada componente, agregar una ruta nueva sin el guard sería un error silencioso. Con `beforeLoad` en el root, cualquier ruta nueva hereda la protección automáticamente.
+
+
+
+### Consultas
+select * from accounts
+select * from comments
+select * from sessions
+select * from tickets
+select * from users
+select * from verifications

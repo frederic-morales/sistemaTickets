@@ -6,8 +6,9 @@ import { db } from "../db";
 import { comments, tickets, users } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
 import type { User } from "../db/schema";
+import type { AppVariables } from "../types";
 
-const app = new Hono();
+const app = new Hono<{ Variables: AppVariables }>();
 
 const commentSchema = z.object({
   content: z.string().min(1).max(2000),
@@ -21,7 +22,7 @@ app.get("/:ticketId/comments", requireAuth, async (c) => {
   const [ticket] = await db
     .select()
     .from(tickets)
-    .where(eq(tickets.id, ticketId));
+    .where(eq(tickets.id, ticketId!));
 
   if (!ticket) return c.json({ error: "Ticket no encontrado" }, 404);
 
@@ -36,7 +37,7 @@ app.get("/:ticketId/comments", requireAuth, async (c) => {
     })
     .from(comments)
     .leftJoin(users, eq(comments.userId, users.id))
-    .where(eq(comments.ticketId, ticketId))
+    .where(eq(comments.ticketId, ticketId!))
     .orderBy(comments.createdAt);
 
   return c.json(result);

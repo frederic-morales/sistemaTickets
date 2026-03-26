@@ -7,8 +7,9 @@ import { tickets, users } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
 import { requireRole } from "../middleware/requireRole";
 import type { User } from "../db/schema";
+import type { AppVariables } from "../types";
 
-const app = new Hono();
+const app = new Hono<{ Variables: AppVariables }>();
 
 // ── Validación ───────────────────────────────────────────────────────────────
 const createTicketSchema = z.object({
@@ -71,7 +72,7 @@ app.get("/:id", requireAuth, async (c) => {
   const [ticket] = await db
     .select()
     .from(tickets)
-    .where(eq(tickets.id, id));
+    .where(eq(tickets.id, id!));
 
   if (!ticket) return c.json({ error: "Ticket no encontrado" }, 404);
 
@@ -164,13 +165,13 @@ app.patch("/:id/assign", requireAuth, requireRole("agente"), async (c) => {
   const user = c.get("user") as User;
   const id = c.req.param("id");
 
-  const [ticket] = await db.select().from(tickets).where(eq(tickets.id, id));
+  const [ticket] = await db.select().from(tickets).where(eq(tickets.id, id!));
   if (!ticket) return c.json({ error: "Ticket no encontrado" }, 404);
 
   const [updated] = await db
     .update(tickets)
     .set({ assignedTo: user.id, updatedAt: new Date() })
-    .where(eq(tickets.id, id))
+    .where(eq(tickets.id, id!))
     .returning();
 
   return c.json(updated);

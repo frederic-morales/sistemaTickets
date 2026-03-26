@@ -5,8 +5,9 @@ import { auth } from "./lib/auth";
 import ticketsRouter from "./routes/tickets";
 import commentsRouter from "./routes/comments";
 import dashboardRouter from "./routes/dashboard";
+import type { AppVariables } from "./types";
 
-const app = new Hono();
+const app = new Hono<{ Variables: AppVariables }>();
 
 // ── Global middleware ─────────────────────────────────────────────────────────
 app.use(logger());

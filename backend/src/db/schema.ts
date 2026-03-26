@@ -69,7 +69,7 @@ export const verifications = pgTable("verifications", {
 });
 
 export const tickets = pgTable("tickets", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
   description: text("description").notNull(),
   category: categoryEnum("category").notNull(),
@@ -85,8 +85,8 @@ export const tickets = pgTable("tickets", {
 });
 
 export const comments = pgTable("comments", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  ticketId: uuid("ticket_id")
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  ticketId: text("ticket_id")
     .notNull()
     .references(() => tickets.id, { onDelete: "cascade" }),
   userId: text("user_id")

@@ -3,8 +3,9 @@ import { eq, sql, lt, isNull, and } from "drizzle-orm";
 import { db } from "../db";
 import { tickets } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
+import type { AppVariables } from "../types";
 
-const app = new Hono();
+const app = new Hono<{ Variables: AppVariables }>();
 
 app.get("/", requireAuth, async (c) => {
   const now = new Date();

@@ -1,10 +1,11 @@
 import type { Context, Next } from "hono";
+import type { AppVariables } from "../types";
 import { auth } from "../lib/auth";
 import { db } from "../db";
 import { users } from "../db/schema";
 import { eq } from "drizzle-orm";
 
-export async function requireAuth(c: Context, next: Next) {
+export async function requireAuth(c: Context<{ Variables: AppVariables }>, next: Next) {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
   if (!session) {
