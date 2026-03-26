@@ -123,9 +123,9 @@ app.patch(
 
     if (!ticket) return c.json({ error: "Ticket no encontrado" }, 404);
 
-    // Solo agentes o el creador puede cambiar estado
-    if (user.role === "empleado" && ticket.createdBy !== user.id) {
-      return c.json({ error: "No autorizado" }, 403);
+    // Solo agentes pueden cambiar estado
+    if (user.role !== "agente") {
+      return c.json({ error: "Solo los agentes pueden cambiar el estado" }, 403);
     }
 
     // Validar transición de estado

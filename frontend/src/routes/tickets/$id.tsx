@@ -156,7 +156,7 @@ function TicketDetailPage() {
         </dl>
       </div>
 
-      {(canAssign || nextStatus) && (
+     {(canAssign || (isAgent && nextStatus)) && (
         <div className="flex gap-3 mb-6">
           {canAssign && (
             <button

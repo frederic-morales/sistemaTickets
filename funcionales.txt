@@ -18,6 +18,7 @@ Restricciones que deben fallar:
 
  No debe poder ver tickets de otros usuarios                                - satisfactorio
  No debe poder asignarse un ticket                                          - satisfactorio
+ No debe cambiar estado de ticket                                           - satisfactorio
 
 
 Como Agente
