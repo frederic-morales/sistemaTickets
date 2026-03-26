@@ -6,7 +6,8 @@
     "start": "bun run src/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "seed": "bun run seed.ts"
+    "seed": "bun run seed.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "better-auth": "^1.2.7",
@@ -17,8 +18,9 @@
     "@hono/zod-validator": "^0.4.3"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.11",
     "@types/pg": "^8.11.11",
-    "drizzle-kit": "^0.30.4",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.30.4"
   }
 }
