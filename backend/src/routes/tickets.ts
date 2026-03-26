@@ -128,6 +128,14 @@ app.patch(
       return c.json({ error: "Solo los agentes pueden cambiar el estado" }, 403);
     }
 
+    // El ticket debe estar asignado al agente que intenta cambiar el estado
+    if (ticket.assignedTo !== user.id) {
+      return c.json(
+        { error: "Solo el agente asignado puede cambiar el estado" },
+        403
+      );
+    }
+
     // Validar transición de estado
     const allowed = VALID_TRANSITIONS[ticket.status] ?? [];
     if (!allowed.includes(newStatus)) {

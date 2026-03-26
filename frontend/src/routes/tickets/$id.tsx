@@ -102,7 +102,9 @@ function TicketDetailPage() {
 
   const isAgent = user?.role === "agente";
   const nextStatus = NEXT_STATUS[ticket.status];
+  const isAssignedToMe = ticket.assignedTo === user?.id;
   const canAssign = isAgent && !ticket.assignedTo && ticket.status !== "cerrado";
+  const canChangeStatus = isAgent && isAssignedToMe && !!nextStatus;
 
   return (
     <div className="max-w-3xl">
@@ -156,7 +158,7 @@ function TicketDetailPage() {
         </dl>
       </div>
 
-     {(canAssign || (isAgent && nextStatus)) && (
+     {(canAssign || canChangeStatus) && (
         <div className="flex gap-3 mb-6">
           {canAssign && (
             <button
@@ -167,7 +169,7 @@ function TicketDetailPage() {
               Asignarme este ticket
             </button>
           )}
-          {nextStatus && (
+          {canChangeStatus && (
             <button
               onClick={handleStatusChange}
               disabled={actionLoading}
