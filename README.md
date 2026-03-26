@@ -153,39 +153,3 @@ select * from tickets
 select * from users
 select * from verifications
 
-
-### 
-Para esta prueba técnica usé solo email y contraseña para la autenticación, pero elegí Better Auth
-porque en la actualidad muchas empresas y corporaciones utilizan correos corporativos digase, Google, microsoft o GitHub 
-entonces se puede hacer este cambio en una línea de configuración, no una refactorización. 
-El schema ya está diseñado para soportarlo — la tabla accounts separa las credenciales del perfil del usuario por esa razón.
-
-
-### Por qué accounts separado de users
-Seguí el modelo sugerido en todas las entidades de negocio — tickets y comments tienen exactamente los campos pedidos. 
-La diferencia está en users, donde delegé el manejo de contraseñas y sesiones a Better Auth. 
-Esto nos da separación de responsabilidades y extensibilidad, también más seguridad por defecto — 
-Better Auth hashea las contraseñas con bcrypt automáticamente sin que nosotros tengamos que implementarlo.
-
-## Por qué additionalFields para el rol
-Better Auth por defecto solo maneja name, email y emailVerified en la tabla de usuarios — nada más. 
-Nosotros necesitamos saber si un usuario es empleado o agente para controlar los permisos. 
-Con additionalFields le decimos a Better Auth que role es un campo extra que debe persistir en 
-la tabla users y que además puede recibirse al momento del registro. Sin esto, tendríamos que hacer una segunda query 
-a la base de datos después del registro para actualizar el rol.
-
-## Por qué Better Auth en lugar de implementar auth manual
-Implementar autenticación manual correctamente implica hashear contraseñas con bcrypt, generar tokens de sesión seguros, 
-manejar expiración, proteger contra timing attacks y CSRF, y mantener todo eso actualizado. Better Auth resuelve todos 
-esos problemas con configuración mínima y es mantenido activamente por la comunidad. 
-Elegí Better Auth para enfocar el tiempo en la lógica de negocio real: los tickets, los permisos y el dashboard
-
-
-## Por qué el promedio de resolución se calcula en SQL
-El dashboard necesita el promedio de tiempo entre created_at y resolved_at de todos los tickets resueltos. 
-Podría calcularse trayendo todos los tickets al servidor de aplicación y haciendo el cálculo en JavaScript, 
-pero eso significa transferir muchos registros por la red solo para hacer una suma y una división. 
-Con SQL lo resolvemos en una sola query que viaja directo a la base de datos y solo devuelve un número:
-    * AVG(EXTRACT(EPOCH FROM (resolved_at - created_at)) / 3600)
-
-
