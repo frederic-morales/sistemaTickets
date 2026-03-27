@@ -25,5 +25,9 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: ["http://localhost:5173"],
+  trustedOrigins: [
+  "http://localhost:5173", // desarrollo local
+  "http://localhost",      // Docker
+  "http://localhost:80",   // Docker puerto explícito
+],
 });
