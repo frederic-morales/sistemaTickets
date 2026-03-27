@@ -30,7 +30,7 @@ Esta opción levanta los 3 servicios (PostgreSQL + Backend + Frontend) con un so
 **1. Clonar el repositorio:**
 ```bash
 git clone https://github.com/frederic-morales/sistemaTickets
-cd pruebaTecnica_tickets
+cd sistemaTickets
 ```
 
 **2. Configurar variables de entorno del backend:**
