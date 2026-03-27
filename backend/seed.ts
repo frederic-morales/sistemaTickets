@@ -7,7 +7,7 @@ import { users, tickets, comments } from "./src/db/schema";
 import { auth } from "./src/lib/auth";
 
 async function seed() {
-  console.log("🌱 Iniciando seed...");
+  console.log("Iniciando seed...");
 
   // Crear usuario agente
   const agentRes = await auth.api.signUpEmail({
@@ -18,7 +18,7 @@ async function seed() {
       role: "agente",
     },
   });
-  console.log("✅ Agente creado:", agentRes.user.email);
+  console.log("Agente creado:", agentRes.user.email);
 
   // Crear usuario empleado
   const employeeRes = await auth.api.signUpEmail({
@@ -29,7 +29,7 @@ async function seed() {
       role: "empleado",
     },
   });
-  console.log("✅ Empleado creado:", employeeRes.user.email);
+  console.log("Empleado creado:", employeeRes.user.email);
 
   const agentId = agentRes.user.id;
   const employeeId = employeeRes.user.id;
@@ -88,7 +88,7 @@ async function seed() {
     .values(sampleTickets)
     .returning();
 
-  console.log(`✅ ${createdTickets.length} tickets creados`);
+  console.log(`${createdTickets.length} tickets creados`);
 
   // Agregar comentarios al segundo ticket
   await db.insert(comments).values([
@@ -104,15 +104,15 @@ async function seed() {
     },
   ]);
 
-  console.log("✅ Comentarios agregados");
-  console.log("\n📋 Credenciales de prueba:");
+  console.log("Comentarios agregados");
+  console.log("\nCredenciales de prueba:");
   console.log("   Agente  → agente@test.com / password123");
   console.log("   Empleado → empleado@test.com / password123");
-  console.log("\n✨ Seed completado!");
+  console.log("\nSeed completado!");
   process.exit(0);
 }
 
 seed().catch((e) => {
-  console.error("❌ Error en seed:", e);
+  console.error("Error en seed:", e);
   process.exit(1);
 });
