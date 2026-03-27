@@ -4,6 +4,8 @@ import { ticketsApi, commentsApi } from "../../lib/api";
 import type { Ticket, CommentWithAuthor, TicketStatus } from "../../lib/types";
 import { StatusBadge, PriorityBadge } from "../../components/StatusBadge";
 import { useAuth } from "../../lib/auth";
+import toast from "react-hot-toast";
+
 
 export const Route = createFileRoute("/tickets/$id")({
   component: TicketDetailPage,
@@ -58,6 +60,13 @@ function TicketDetailPage() {
     try {
       const updated = await ticketsApi.updateStatus(id, next);
       setTicket(updated);
+      if (next === "resuelto") {
+        toast.success("Ticket resuelto");
+      } else if (next === "cerrado") {
+        toast("Ticket cerrado", { icon: "🔒" });
+      } else {
+        toast.success("Estado actualizado");
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -70,6 +79,7 @@ function TicketDetailPage() {
     try {
       const updated = await ticketsApi.assign(id);
       setTicket(updated);
+      toast.success("Ticket asignado correctamente");
     } catch (e: any) {
       setError(e.message);
     } finally {

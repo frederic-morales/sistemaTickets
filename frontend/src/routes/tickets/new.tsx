@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ticketsApi } from "../../lib/api";
 import type { CreateTicketInput } from "../../lib/types";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/tickets/new")({
   component: NewTicketPage,
@@ -40,6 +41,7 @@ function NewTicketPage() {
     setLoading(true);
     try {
       const ticket = await ticketsApi.create(form);
+      toast.success("Ticket creado correctamente");
       navigate({ to: "/tickets/$id", params: { id: ticket.id } });
     } catch (err: any) {
       setError(err.message ?? "Error al crear el ticket");

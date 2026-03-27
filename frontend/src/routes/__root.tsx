@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet, redirect } from "@tanstack/react-router";
+import { Toaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "../lib/auth";
 import { Navbar } from "../components/Navbar";
 import { authApi } from "../lib/api";
@@ -48,6 +49,7 @@ function InnerLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Toaster position="top-right" />
       {user && !isAuthPage && <Navbar />}
       <main className="max-w-6xl mx-auto px-6 py-8">
         <Outlet />
