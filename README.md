@@ -294,3 +294,4 @@ Centralizar la verificación de sesión en el layout raíz garantiza que ninguna
 
 ### Por qué `fetch` nativo en lugar de Axios
 `fetch` viene incluido en el navegador y en Bun — sin dependencias extra. La función `request` centraliza el manejo de errores y headers sin necesitar una librería externa. Axios resolvía problemas de compatibilidad de browsers que ya no son relevantes en 2026.
+
