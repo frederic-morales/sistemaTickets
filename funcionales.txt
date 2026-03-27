@@ -52,11 +52,11 @@ Dashboard
 
 
  *********
- tocomorales30@gmail.com - empleado
+ tocomorales30@gmail.com - empleado Frederic Soc
  contraseña1
 
  *********
- arielmoralestok2@gmail.com - agente
+ arielmoralestok2@gmail.com - agente Jose Aquino
  contraseña2
 
  *********
@@ -64,5 +64,5 @@ Dashboard
  contraseña3
  
  *********
- arielsoc1@gmail.com - empleado
+ arielsoc1@gmail.com - empleado 
  contraseña4
